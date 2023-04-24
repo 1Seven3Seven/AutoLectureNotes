@@ -8,7 +8,8 @@ import openai
 
 
 def gpt_test():
-    openai.api_key = "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"
+    with open("api_key.txt") as f:
+        openai.api_key = f.readline().strip()
 
     models = openai.Model.list()
 
