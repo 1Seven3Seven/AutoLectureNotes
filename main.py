@@ -11,27 +11,36 @@ def gpt_test():
     with open("api_key.txt") as f:
         openai.api_key = f.readline().strip()
 
-    models = openai.Model.list()
+    with open("TranscriptExample.txt") as f:
+        transcript = f.read()
 
     completion = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[
             {
                 "role":    "system",
-                "content": "You are a student is a lecture taking notes"
+                "content": "Provide a brief summary of what a transcript contains"
             },
             {
                 "role":    "user",
-                "content": "What are you doing?"
+                "content": transcript
             },
+        ]
+    )
+
+    print(completion.choices[0].message.content)
+
+    completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
             {
-                "role":    "assistant",
-                "content": "I am a student taking notes in a lecture. The lecture is about the impact of social media on society. The professor is discussing how social media has changed the way we communicate, share information, and consume media."
+                "role":    "system",
+                "content": "Convert a transcripts into brief dot points that outline the main points presented"
             },
             {
                 "role":    "user",
-                "content": "Can you give me some notes, only two points."
-            }
+                "content": transcript
+            },
         ]
     )
 
